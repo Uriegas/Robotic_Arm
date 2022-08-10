@@ -1,12 +1,14 @@
 package com.example.mariela.brazo_robotico;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import org.rajawali3d.Object3D;
 import org.rajawali3d.lights.DirectionalLight;
 import org.rajawali3d.loader.LoaderOBJ;
 import org.rajawali3d.loader.ParsingException;
+import org.rajawali3d.materials.textures.ATexture;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.renderer.RajawaliRenderer;
 
@@ -32,6 +34,7 @@ public class RenderObj extends RajawaliRenderer {
         key.setPower(2);
         getCurrentScene().addLight(key);
 
+
         LoaderOBJ loader = new LoaderOBJ(getContext().getResources(), getTextureManager(), R.raw.brazo);
 
         try {
@@ -40,6 +43,8 @@ public class RenderObj extends RajawaliRenderer {
             obj.setScale(0.7f);
 //            obj.setScale(5.5f);
             getCurrentScene().addChild(obj);
+            getCurrentScene().setSkybox(R.drawable.posx, R.drawable.negx, R.drawable.posy,
+                                        R.drawable.negy, R.drawable.posz, R.drawable.negz);
 
             //obj.moveRight(10.0);
             //getCurrentScene().addChild(obj);
@@ -49,6 +54,8 @@ public class RenderObj extends RajawaliRenderer {
 
         } catch (ParsingException e) {
             e.printStackTrace();
+        } catch (ATexture.TextureException e ) {
+            Log.e("Render", "Skybox not found");
         }
 
         //getCurrentCamera().setPosition(6,20,6);
