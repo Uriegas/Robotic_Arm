@@ -28,18 +28,17 @@ public class RenderObj extends RajawaliRenderer {
 
     @Override
     protected void initScene() {
-
         DirectionalLight key = new DirectionalLight(-3,-4,-5);
         key.setPower(2);
         getCurrentScene().addLight(key);
 
-        LoaderOBJ loader = new LoaderOBJ(getContext().getResources(), getTextureManager(), R.raw.brazo_skin);
+        LoaderOBJ loader = new LoaderOBJ(getContext().getResources(), getTextureManager(), R.raw.brazo);
 
         try {
-
             loader.parse();
             obj = loader.getParsedObject();
-            obj.setScale(0.5f);
+            obj.setScale(0.7f);
+//            obj.setScale(5.5f);
             getCurrentScene().addChild(obj);
 
             //obj.moveRight(10.0);
@@ -53,9 +52,9 @@ public class RenderObj extends RajawaliRenderer {
         }
 
         //getCurrentCamera().setPosition(6,20,6);
-        getCurrentCamera().setPosition(0,5,5);
+        getCurrentCamera().setPosition(6,5,5);
         //getCurrentCamera().setLookAt(obj.getPosition());
-        getCurrentCamera().setLookAt(0,0,0);
+        getCurrentCamera().setLookAt(0,2,0);
     }
 
     @Override
@@ -72,7 +71,7 @@ public class RenderObj extends RajawaliRenderer {
     public void onRender(final long elapsedTime, final double deltaTime) {
         if (mostrarOBJ == true) {
             super.onRender(elapsedTime, deltaTime);
-            obj.rotate(Vector3.Axis.Y, 1.0);
+//            obj.rotate(Vector3.Axis.Y, 1.0);
         }
     }
 }
