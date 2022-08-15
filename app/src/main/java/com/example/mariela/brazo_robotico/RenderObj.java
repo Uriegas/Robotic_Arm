@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RenderObj extends RajawaliRenderer {
+    private float scale_factor = 1.5f;
     public Context context;
     private Object3D obj;
     private boolean mostrarOBJ;
@@ -32,6 +33,7 @@ public class RenderObj extends RajawaliRenderer {
         objects = new HashMap<>();
         objects.put(R.raw.base_arm_obj, null);
         objects.put(R.raw.waist_arm_obj, null);
+        objects.put(R.raw.arm_01_obj, null);
     }
 
     public void setmostrarOBJ(boolean mostrarOBJ) {
@@ -52,14 +54,24 @@ public class RenderObj extends RajawaliRenderer {
                                                  object.getKey());
                 loader.parse();
                 objects.put(object.getKey(), loader.getParsedObject());
-                object.getValue().setScale(0.7f); // At this point the object should be loaded
                 getCurrentScene().addChild(object.getValue());
             }
 
             // TODO: Initial setup for each object
-            objects.get(R.raw.base_arm_obj).setScale(0.7);
-            objects.get(R.raw.waist_arm_obj).setScale(0.7);
-            objects.get(R.raw.waist_arm_obj).moveUp(0.45f);
+            // Base of arm
+            objects.get(R.raw.base_arm_obj).setScale(0.7 * scale_factor);
+            // Base 2 of the arm
+            objects.get(R.raw.waist_arm_obj).setScale(0.7 * scale_factor);
+            objects.get(R.raw.waist_arm_obj).rotate(Vector3.Axis.Y, 90);
+            objects.get(R.raw.waist_arm_obj).moveUp(0.43f * scale_factor);
+            objects.get(R.raw.waist_arm_obj).moveRight(-0.010f);
+            objects.get(R.raw.waist_arm_obj).moveForward(-0.048f);
+            // Arm low
+            objects.get(R.raw.arm_01_obj).setScale(1.7 * scale_factor);
+            objects.get(R.raw.arm_01_obj).moveUp(0.6 * scale_factor);
+            objects.get(R.raw.arm_01_obj).moveRight(0.150f);
+            objects.get(R.raw.arm_01_obj).moveForward(0.05f);
+
 
             // Set skybox
             getCurrentScene().setSkybox(R.drawable.posx, R.drawable.negx, R.drawable.posy,
@@ -78,9 +90,16 @@ public class RenderObj extends RajawaliRenderer {
         }
 
         // Set camera position
-        //getCurrentCamera().setPosition(6,20,6);
-        getCurrentCamera().setPosition(6,5,5);
-        //getCurrentCamera().setLookAt(obj.getPosition());
+        // For debugging
+        // Top down view
+//        getCurrentCamera().setPosition(0,5,0);
+//        getCurrentCamera().setLookAt(objects.get(R.raw.waist_arm_obj).getPosition());
+        // Bottom up view
+        // Side view
+//        getCurrentCamera().setPosition(-5, 5, 0);
+//        getCurrentCamera().setLookAt(objects.get(R.raw.waist_arm_obj).getPosition());
+        // Front view
+        getCurrentCamera().setPosition(0, 5, 5);
         getCurrentCamera().setLookAt(0,2,0);
     }
 
@@ -91,14 +110,14 @@ public class RenderObj extends RajawaliRenderer {
 
     @Override
     public void onTouchEvent(MotionEvent event) {
-
+        // TODO: Move around the skybox in drag
     }
 
     @Override
     public void onRender(final long elapsedTime, final double deltaTime) {
         if (mostrarOBJ == true) {
             super.onRender(elapsedTime, deltaTime);
-            objects.get(R.raw.waist_arm_obj).rotate(Vector3.Axis.Y, 1.0);
+//            objects.get(R.raw.waist_arm_obj).rotate(Vector3.Axis.Y, 1.0);
         }
     }
 }
