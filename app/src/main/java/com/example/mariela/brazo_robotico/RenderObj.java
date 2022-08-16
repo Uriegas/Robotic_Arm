@@ -1,7 +1,6 @@
 package com.example.mariela.brazo_robotico;
 
 import android.content.Context;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -16,7 +15,6 @@ import org.rajawali3d.materials.textures.ATexture;
 import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.renderer.RajawaliRenderer;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +40,7 @@ public class RenderObj extends RajawaliRenderer {
         this.mostrarOBJ = mostrarOBJ;
         setFrameRate(60);
         objects = new HashMap<>();
-        objects.put(R.raw.base_arm_obj, null);
+        objects.put(R.raw.base_1, null);
         objects.put(R.raw.waist_arm_obj, null);
         objects.put(R.raw.arm_01_obj, null);
     }
@@ -90,8 +88,8 @@ public class RenderObj extends RajawaliRenderer {
 
             // TODO: Initial setup for each object
             // Base of arm
-            objects.get(R.raw.base_arm_obj).setScale(0.7 * scale_factor);
-            objects.get(R.raw.base_arm_obj).setMaterial(mSilver);
+            objects.get(R.raw.base_1).setScale(0.7 * scale_factor);
+            objects.get(R.raw.base_1).setMaterial(mSilver);
             // Base 2 of the arm
             objects.get(R.raw.waist_arm_obj).setScale(0.7 * scale_factor);
             objects.get(R.raw.waist_arm_obj).rotate(Vector3.Axis.Y, 90);
@@ -137,9 +135,8 @@ public class RenderObj extends RajawaliRenderer {
     }
 
     @Override
-    public void onOffsetsChanged(float xOffset, float yOffset, float xOffsetStep, float yOffsetStep, int xPixelOffset, int yPixelOffset) {
-
-    }
+    public void onOffsetsChanged(float xOffset, float yOffset, float xOffsetStep, float yOffsetStep,
+                                 int xPixelOffset, int yPixelOffset) { }
 
     /**
      * The implementation of onTouch is in {@link ArmSurfaceView}
