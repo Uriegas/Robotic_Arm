@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
         render = new RenderObj(this, true);
 
         // Get buttons
-        B1 = findViewById(R.id.brazoAbajo);
-        B2 = findViewById(R.id.brazoArriba);
-        B3 = findViewById(R.id.munecaDerecha);
-        B4 = findViewById(R.id.munecaIzquierda);
+        B1 = findViewById(R.id.brazoArriba);
+        B2 = findViewById(R.id.brazoAbajo);
+        B3 = findViewById(R.id.munecaIzquierda);
+        B4 = findViewById(R.id.munecaDerecha);
         B5 = findViewById(R.id.dedosAbrir);
         B6 = findViewById(R.id.dedosCerrar);
 
@@ -38,23 +38,11 @@ public class MainActivity extends AppCompatActivity {
 //        setContentView(surfaceView);
 
         // Set buttons actions
-        B2.setOnClickListener(view -> { // rotate arm clockwise
-//            if (render.angle_1 < 135.0) render.angle_1 += render.ANGLE_STEP;
-        });
-        B1.setOnClickListener(view -> { // rotate arm counter-clockwise
-//            if (render.angle_1 > -135.0) render.angle_1 -= render.ANGLE_STEP;
-        });
-        B3.setOnClickListener(view -> { // rotate hand clockwise
-//            render.angle_2 = (render.angle_2 + render.ANGLE_STEP) % 360;
-        });
-        B4.setOnClickListener(view -> { // rotate hand counter-clockwise
-//            render.angle_2 = (render.angle_2 - render.ANGLE_STEP) % 360;
-        });
-        B5.setOnClickListener(view -> { // Open hand
-//            if (render.angle_3 < 8.0) render.angle_3 = (render.angle_3 + render.ANGLE_STEP) % 360;
-        });
-        B6.setOnClickListener(view -> { // Close hand
-//            if (render.angle_3 > -8.0) render.angle_3 = (render.angle_3 - render.ANGLE_STEP) % 360;
-        });
+        B1.setOnClickListener(view -> { render.rotateBase(true); });
+        B2.setOnClickListener(view -> { render.rotateArmLow(true); });
+        B3.setOnClickListener(view -> { render.rotateArmHigh(true); });
+        B4.setOnClickListener(view -> { render.rotateArmWristAround(true);});
+        B5.setOnClickListener(view -> { render.rotateArmWrist(true);});
+        B6.setOnClickListener(view -> { render.openHand(true);});
     }
 }
