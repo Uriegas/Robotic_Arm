@@ -44,41 +44,59 @@
         android:layout_weight="1.2"
         android:layout_height="0dp"
         android:layout_gravity="center">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
 
         <Button android:id="@+id/brazoArriba"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="Bajar brazo"/>
+            android:layout_height="wrap_content"
+            android:text="Bajar Brazo"/>
 
         <Button android:id="@+id/brazoAbajo"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="Subir brazo"/>
+        </LinearLayout>
 
-        <Button android:id="@+id/munecaIzquierda"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+        <Button android:id="@+id/munecaIzquierda"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:text="Girar muñeca I"/>
 
         <Button android:id="@+id/munecaDerecha"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="Girar Muñeca D"/>
+        </LinearLayout>
 
-        <Button android:id="@+id/dedosAbrir"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+        <Button android:id="@+id/dedosAbrir"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:text="Cerrar mano"/>
 
         <Button android:id="@+id/dedosCerrar"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="Abrir mano"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
