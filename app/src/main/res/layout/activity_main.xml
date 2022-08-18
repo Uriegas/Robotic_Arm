@@ -50,17 +50,17 @@
             android:orientation="vertical"
             >
 
-        <Button android:id="@+id/brazoArriba"
+        <Button android:id="@+id/B1"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Bajar Brazo"/>
+            android:text="YI"/>
 
-        <Button android:id="@+id/brazoAbajo"
+        <Button android:id="@+id/B2"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Subir brazo"/>
+            android:text="YD"/>
         </LinearLayout>
 
         <LinearLayout
@@ -68,17 +68,17 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
-        <Button android:id="@+id/munecaIzquierda"
+        <Button android:id="@+id/B3"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Girar muñeca I"/>
+            android:text="A1I"/>
 
-        <Button android:id="@+id/munecaDerecha"
+        <Button android:id="@+id/B4"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Girar Muñeca D"/>
+            android:text="A1D"/>
         </LinearLayout>
 
         <LinearLayout
@@ -86,17 +86,76 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
-        <Button android:id="@+id/dedosAbrir"
+        <Button android:id="@+id/B5"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Cerrar mano"/>
+            android:text="A2I"/>
 
-        <Button android:id="@+id/dedosCerrar"
+        <Button android:id="@+id/B6"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Abrir mano"/>
+            android:text="A2D"/>
+        </LinearLayout>
+
+
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="vertical"-->
+<!--            >-->
+
+<!--            <Button android:id="@+id/B7"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="YI"/>-->
+
+<!--            <Button android:id="@+id/B8"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="YD"/>-->
+<!--        </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <Button android:id="@+id/B9"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="WUP"/>
+
+            <Button android:id="@+id/B10"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="WDN"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <Button android:id="@+id/B11"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="HO"/>
+
+            <Button android:id="@+id/B12"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="HC"/>
         </LinearLayout>
     </LinearLayout>
+
+
 </LinearLayout>
