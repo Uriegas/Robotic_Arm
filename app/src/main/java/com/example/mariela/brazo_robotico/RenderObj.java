@@ -90,7 +90,7 @@ public class RenderObj extends RajawaliRenderer {
                 getCurrentScene().addChild(object.getValue());
             }
 
-            // Add children relationships
+            // Add children relationships (object hierarchy)
             getCurrentScene().addChild(objects.get(R.raw.base_1));
             objects.get(R.raw.base_1).addChild(objects.get(R.raw.base_2));
             objects.get(R.raw.base_2).addChild(objects.get(R.raw.arm_1));
@@ -103,10 +103,6 @@ public class RenderObj extends RajawaliRenderer {
             objects.get(R.raw.wrist_2).addChild(objects.get(R.raw.link_2));
             objects.get(R.raw.gear_1).addChild(objects.get(R.raw.gripper_1));
             objects.get(R.raw.gear_2).addChild(objects.get(R.raw.gripper_2));
-
-            // Test adding link as parent of grippers
-            //objects.get(R.raw.link_1).addChild(objects.get(R.raw.gripper_1));
-            //objects.get(R.raw.link_2).addChild(objects.get(R.raw.gripper_2));
 
             // Initial setup for each object; positions are relative according to hierarchy
             // Base of the robot arm
@@ -197,9 +193,6 @@ public class RenderObj extends RajawaliRenderer {
         // Front view
         getCurrentCamera().setPosition(cameraPosition); // Update on drag
         getCurrentCamera().setLookAt(0,2,0);
-//        getCurrentCamera().setLookAt(objects.get(R.raw.arm_2).getPosition());
-//        getCurrentCamera().setPosition(2.5, 3, 4);
-//        getCurrentCamera().setLookAt(2.5, 3, 4);
     }
 
     @Override
@@ -227,7 +220,6 @@ public class RenderObj extends RajawaliRenderer {
      * TODO: Instead if changing look at, change camera position to rotate over the arm
      */
     public void setCameraLookAt(float x, float y, float z) {
-        // TODO: Movement is not as straight forward, get direction of the finger
         // Update camera position
 //        getCurrentCamera().setPosition();
     }
