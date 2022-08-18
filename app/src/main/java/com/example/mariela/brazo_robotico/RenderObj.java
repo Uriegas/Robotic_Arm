@@ -35,7 +35,7 @@ public class RenderObj extends RajawaliRenderer {
         super(context);
         this.context = context;
         setFrameRate(60);
-        cameraPosition = new Vector3(0, 4, 8); // Initialize camera position
+        cameraPosition = new Vector3(0, 4, 10); // Initialize camera position
 
         // Every imported object should be added into this map
         objects = new HashMap<>();
@@ -45,12 +45,12 @@ public class RenderObj extends RajawaliRenderer {
         objects.put(R.raw.arm_2, null);
         objects.put(R.raw.wrist_1, null);
         objects.put(R.raw.wrist_2, null);
-//        objects.put(R.raw.gear_1, null);
-//        objects.put(R.raw.gear_2, null);
-//        objects.put(R.raw.link_1, null);
-//        objects.put(R.raw.link_2, null);
-//        objects.put(R.raw.gripper_1, null);
-//        objects.put(R.raw.gripper_2, null);
+        objects.put(R.raw.gear_1, null);
+        objects.put(R.raw.gear_2, null);
+        objects.put(R.raw.link_1, null);
+        objects.put(R.raw.link_2, null);
+        objects.put(R.raw.gripper_1, null);
+        objects.put(R.raw.gripper_2, null);
     }
 
     @Override
@@ -91,17 +91,18 @@ public class RenderObj extends RajawaliRenderer {
             }
 
             // Add children relationships
+            getCurrentScene().addChild(objects.get(R.raw.base_1));
             objects.get(R.raw.base_1).addChild(objects.get(R.raw.base_2));
             objects.get(R.raw.base_2).addChild(objects.get(R.raw.arm_1));
             objects.get(R.raw.arm_1).addChild(objects.get(R.raw.arm_2));
             objects.get(R.raw.arm_2).addChild(objects.get(R.raw.wrist_1));
             objects.get(R.raw.wrist_1).addChild(objects.get(R.raw.wrist_2));
-//            objects.get(R.raw.wrist_2).addChild(objects.get(R.raw.gear_1));
-//            objects.get(R.raw.wrist_2).addChild(objects.get(R.raw.gear_2));
-//            objects.get(R.raw.gear_1).addChild(objects.get(R.raw.link_1));
-//            objects.get(R.raw.gear_2).addChild(objects.get(R.raw.link_2));
-//            objects.get(R.raw.gear_1).addChild(objects.get(R.raw.gripper_1));
-//            objects.get(R.raw.gear_2).addChild(objects.get(R.raw.gripper_2));
+            objects.get(R.raw.wrist_2).addChild(objects.get(R.raw.gear_1));
+            objects.get(R.raw.wrist_2).addChild(objects.get(R.raw.gear_2));
+            objects.get(R.raw.wrist_2).addChild(objects.get(R.raw.link_1));
+            objects.get(R.raw.wrist_2).addChild(objects.get(R.raw.link_2));
+            objects.get(R.raw.gear_1).addChild(objects.get(R.raw.gripper_1));
+            objects.get(R.raw.gear_2).addChild(objects.get(R.raw.gripper_2));
 
             // Test adding link as parent of grippers
             //objects.get(R.raw.link_1).addChild(objects.get(R.raw.gripper_1));
@@ -142,6 +143,34 @@ public class RenderObj extends RajawaliRenderer {
             objects.get(R.raw.wrist_2).moveForward(0.125 * scale_factor);
             objects.get(R.raw.wrist_2).moveRight(0.415 * scale_factor);
 
+            // Parts of Finger 1
+            objects.get(R.raw.gear_1).setScale(scale_factor);
+            objects.get(R.raw.gear_1).setMaterial(mSilver);
+            objects.get(R.raw.gear_1).moveRight(0.595);
+            objects.get(R.raw.gear_1).moveForward(0.226);
+            objects.get(R.raw.link_1).setScale(scale_factor);
+            objects.get(R.raw.link_1).setMaterial(mSilver);
+            objects.get(R.raw.link_1).moveRight(0.911);
+            objects.get(R.raw.link_1).moveForward(0.102);
+            objects.get(R.raw.gripper_1).setScale(scale_factor);
+            objects.get(R.raw.gripper_1).setMaterial(mSilver);
+            objects.get(R.raw.gripper_1).moveRight(0.446);
+            objects.get(R.raw.gripper_1).moveForward(0.183);
+
+            // Parts of Finger 2
+            objects.get(R.raw.gear_2).setScale(scale_factor);
+            objects.get(R.raw.gear_2).setMaterial(mSilver);
+            objects.get(R.raw.gear_2).moveRight(0.595);
+            objects.get(R.raw.gear_2).moveForward(-0.195);
+            objects.get(R.raw.link_2).setScale(scale_factor);
+            objects.get(R.raw.link_2).setMaterial(mSilver);
+            objects.get(R.raw.link_2).moveRight(0.911);
+            objects.get(R.raw.link_2).moveForward(-0.056);
+            objects.get(R.raw.gripper_2).setScale(scale_factor);
+            objects.get(R.raw.gripper_2).setMaterial(mSilver);
+            objects.get(R.raw.gripper_2).moveRight(0.446);
+            objects.get(R.raw.gripper_2).moveForward(-0.172);
+
             // Set skybox
             getCurrentScene().setSkybox(R.drawable.posx, R.drawable.negx, R.drawable.posy,
                                         R.drawable.negy, R.drawable.posz, R.drawable.negz);
@@ -157,16 +186,20 @@ public class RenderObj extends RajawaliRenderer {
         // Set camera position
         // For debugging
         // Top down view
-//        getCurrentCamera().setPosition(0,8,0);
-//        getCurrentCamera().setLookAt(objects.get(R.raw.arm_02_v3_obj).getPosition());
+        getCurrentCamera().setPosition(3, 7, 0);
+        getCurrentCamera().setLookAt(0, 0, 0);
         // Bottom up view
+//        getCurrentCamera().setPosition(2, 0, 0);
+//        getCurrentCamera().setLookAt(2, 5, 0);
         // Side view
 //        getCurrentCamera().setPosition(5, 5, 0);
 //        getCurrentCamera().setLookAt(objects.get(R.raw.arm_2).getPosition());
         // Front view
-        getCurrentCamera().setPosition(cameraPosition); // Update on drag
-        getCurrentCamera().setLookAt(0,2,0);
+//        getCurrentCamera().setPosition(cameraPosition); // Update on drag
+//        getCurrentCamera().setLookAt(0,2,0);
 //        getCurrentCamera().setLookAt(objects.get(R.raw.arm_2).getPosition());
+//        getCurrentCamera().setPosition(2.5, 3, 4);
+//        getCurrentCamera().setLookAt(2.5, 3, 4);
     }
 
     @Override
@@ -209,6 +242,7 @@ public class RenderObj extends RajawaliRenderer {
     // TODO: Looks like when calling an object lower in the hierarchy this doesn't multiply its
     //       movement matrix by the movement matrix of the higher order objects in the hierarchy
     //       therefore producing the effect of the moving piece being drawn in the start position
+    // Quick fix: rotate base by 0
 
     /**
      * Rotation of the base of the arm
@@ -225,6 +259,7 @@ public class RenderObj extends RajawaliRenderer {
     public void rotateArmLow(boolean isPositive) {
         if(objects.get(R.raw.arm_1).getRotZ() < 1.25  && objects.get(R.raw.arm_1).getRotZ() > -0.25)
             objects.get(R.raw.arm_1).rotate(Vector3.Axis.Z, isPositive ? ANGLE_STEP : -ANGLE_STEP);
+        objects.get(R.raw.base_1).rotate(Vector3.Axis.Z, 0.0);
     }
 
     /**
@@ -235,6 +270,7 @@ public class RenderObj extends RajawaliRenderer {
     public void rotateArmHigh(boolean isPositive) {
         if(objects.get(R.raw.arm_2).getRotZ() < 0.6 )
             objects.get(R.raw.arm_2).rotate(Vector3.Axis.Z, isPositive ? ANGLE_STEP : -ANGLE_STEP);
+        objects.get(R.raw.base_1).rotate(Vector3.Axis.Z, 0.0);
     }
 
     /**
@@ -243,6 +279,7 @@ public class RenderObj extends RajawaliRenderer {
      */
     public void rotateArmWristAround(boolean isPositive) {
         objects.get(R.raw.wrist_1).rotate(Vector3.Axis.X, isPositive ? ANGLE_STEP : -ANGLE_STEP);
+        objects.get(R.raw.base_1).rotate(Vector3.Axis.Z, 0.0);
     }
 
     /**
@@ -253,6 +290,7 @@ public class RenderObj extends RajawaliRenderer {
         System.out.println(objects.get(R.raw.wrist_2).getRotZ() );
         if(objects.get(R.raw.wrist_2).getRotZ() >-1.2 && objects.get(R.raw.wrist_2).getRotZ() <1.2)
             objects.get(R.raw.wrist_2).rotate(Vector3.Axis.Z, isPositive ? ANGLE_STEP :-ANGLE_STEP);
+        objects.get(R.raw.base_1).rotate(Vector3.Axis.Z, 0.0);
     }
 
     /**
