@@ -186,8 +186,8 @@ public class RenderObj extends RajawaliRenderer {
         // Set camera position
         // For debugging
         // Top down view
-        getCurrentCamera().setPosition(3, 7, 0);
-        getCurrentCamera().setLookAt(0, 0, 0);
+//        getCurrentCamera().setPosition(3, 7, 0);
+//        getCurrentCamera().setLookAt(0, 0, 0);
         // Bottom up view
 //        getCurrentCamera().setPosition(2, 0, 0);
 //        getCurrentCamera().setLookAt(2, 5, 0);
@@ -195,8 +195,8 @@ public class RenderObj extends RajawaliRenderer {
 //        getCurrentCamera().setPosition(5, 5, 0);
 //        getCurrentCamera().setLookAt(objects.get(R.raw.arm_2).getPosition());
         // Front view
-//        getCurrentCamera().setPosition(cameraPosition); // Update on drag
-//        getCurrentCamera().setLookAt(0,2,0);
+        getCurrentCamera().setPosition(cameraPosition); // Update on drag
+        getCurrentCamera().setLookAt(0,2,0);
 //        getCurrentCamera().setLookAt(objects.get(R.raw.arm_2).getPosition());
 //        getCurrentCamera().setPosition(2.5, 3, 4);
 //        getCurrentCamera().setLookAt(2.5, 3, 4);
@@ -298,7 +298,22 @@ public class RenderObj extends RajawaliRenderer {
      * @param isPositive whether the hand will be opened or closed
      */
     public void openHand(boolean isPositive) {
-        // TODO: Several movements; move 4 pieces
+        System.out.println(objects.get(R.raw.gear_1).getRotY());
+        System.out.println(objects.get(R.raw.gear_2).getRotY());
 
+        // No need to check all objects only one gear
+        if(objects.get(R.raw.gear_1).getRotY()<0.90 && objects.get(R.raw.gear_1).getRotY()>-0.25){
+            // Move gears
+            objects.get(R.raw.gear_1).rotate(Vector3.Axis.Y, isPositive ? ANGLE_STEP : -ANGLE_STEP);
+            objects.get(R.raw.gear_2).rotate(Vector3.Axis.Y, isPositive ? -ANGLE_STEP : ANGLE_STEP);
+            // Move links
+            objects.get(R.raw.link_1).rotate(Vector3.Axis.Y, isPositive ? ANGLE_STEP : -ANGLE_STEP);
+            objects.get(R.raw.link_2).rotate(Vector3.Axis.Y, isPositive ? -ANGLE_STEP : ANGLE_STEP);
+            // Move grippers
+            objects.get(R.raw.gripper_1).rotate(Vector3.Axis.Y, isPositive ?-ANGLE_STEP:ANGLE_STEP);
+            objects.get(R.raw.gripper_2).rotate(Vector3.Axis.Y, isPositive ?ANGLE_STEP:-ANGLE_STEP);
+            // Quick fix
+            objects.get(R.raw.base_1).rotate(Vector3.Axis.Z, 0.0);
+        }
     }
 }
