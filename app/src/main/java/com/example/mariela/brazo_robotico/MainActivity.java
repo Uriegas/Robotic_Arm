@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        render = new RenderObj(this, true);
+        render = new RenderObj(this);
 
         // Get buttons
         B1 = findViewById(R.id.brazoArriba);

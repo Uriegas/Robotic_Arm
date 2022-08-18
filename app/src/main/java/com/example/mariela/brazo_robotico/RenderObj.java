@@ -19,30 +19,25 @@ import org.rajawali3d.renderer.RajawaliRenderer;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * TODO:
+ *      Remove hardcoded angle boundaries in rotate*() methods
+ */
 public class RenderObj extends RajawaliRenderer {
     private final String TAG = "Renderer";
-    private float scale_factor = 1.0f;
-    public float cameraX = 0, cameraY = 2, cameraZ = 0; // Initial values of the camera look at
-    public float canvasX = 0, canvasY = 0, canvasZ = 0;
-    private float moveSpeed = 0.02f;
+    private final float scale_factor = 1.0f;
     public Context context;
-    private boolean mostrarOBJ;
-    private HashMap<Integer, Object3D> objects; // A map from the file name of an obj and the obj
+    private HashMap<Integer, Object3D> objects; // A map from the file id and the imported obj
+    public final float ANGLE_STEP = 3.0f; // Smoothness of the movements
+    public Vector3 cameraPosition;
 
-    // Angle parameters to move the arm
-    public float g_arm1Angle = 3.0f, g_joint1Angle, g_joint2Angle, g_joint3Angle, g_joint4Angle;
-    public final float ANGLE_STEP = 3.0f;
-    public Matrix4 rotate_matrix;
-
-    // Matrix used for movement
-
-    public RenderObj(Context context, boolean mostrarOBJ) {
+    public RenderObj(Context context) {
         super(context);
         this.context = context;
-        this.mostrarOBJ = mostrarOBJ;
         setFrameRate(60);
+        cameraPosition = new Vector3(0, 4, 8); // Initialize camera position
 
-        // Add all objects to draw into a map
+        // Every imported object should be added into this map
         objects = new HashMap<>();
         objects.put(R.raw.base_1, null);
         objects.put(R.raw.base_2, null);
@@ -50,10 +45,12 @@ public class RenderObj extends RajawaliRenderer {
         objects.put(R.raw.arm_2, null);
         objects.put(R.raw.wrist_1, null);
         objects.put(R.raw.wrist_2, null);
-    }
-
-    public void setmostrarOBJ(boolean mostrarOBJ) {
-        this.mostrarOBJ = mostrarOBJ;
+//        objects.put(R.raw.gear_1, null);
+//        objects.put(R.raw.gear_2, null);
+//        objects.put(R.raw.link_1, null);
+//        objects.put(R.raw.link_2, null);
+//        objects.put(R.raw.gripper_1, null);
+//        objects.put(R.raw.gripper_2, null);
     }
 
     @Override
@@ -99,57 +96,62 @@ public class RenderObj extends RajawaliRenderer {
             objects.get(R.raw.arm_1).addChild(objects.get(R.raw.arm_2));
             objects.get(R.raw.arm_2).addChild(objects.get(R.raw.wrist_1));
             objects.get(R.raw.wrist_1).addChild(objects.get(R.raw.wrist_2));
+//            objects.get(R.raw.wrist_2).addChild(objects.get(R.raw.gear_1));
+//            objects.get(R.raw.wrist_2).addChild(objects.get(R.raw.gear_2));
+//            objects.get(R.raw.gear_1).addChild(objects.get(R.raw.link_1));
+//            objects.get(R.raw.gear_2).addChild(objects.get(R.raw.link_2));
+//            objects.get(R.raw.gear_1).addChild(objects.get(R.raw.gripper_1));
+//            objects.get(R.raw.gear_2).addChild(objects.get(R.raw.gripper_2));
+
+            // Test adding link as parent of grippers
+            //objects.get(R.raw.link_1).addChild(objects.get(R.raw.gripper_1));
+            //objects.get(R.raw.link_2).addChild(objects.get(R.raw.gripper_2));
 
             // Initial setup for each object; positions are relative according to hierarchy
             // Base of the robot arm
-//            objects.get(R.raw.base_1).setScale(scale_factor);
+            objects.get(R.raw.base_1).setScale(scale_factor);
             objects.get(R.raw.base_1).setMaterial(mSilver);
 
             // Movable base part of the arm
-//            objects.get(R.raw.base_2).setScale(scale_factor);
+            objects.get(R.raw.base_2).setScale(scale_factor);
             objects.get(R.raw.base_2).setMaterial(mBlue);
 
             // Lower part of the arm
-//            objects.get(R.raw.arm_1).setScale(scale_factor);
+            objects.get(R.raw.arm_1).setScale(scale_factor);
             objects.get(R.raw.arm_1).setMaterial(mBlue);
             objects.get(R.raw.arm_1).moveUp(1.25 * scale_factor);
             objects.get(R.raw.arm_1).moveRight(0.170 * scale_factor);
             objects.get(R.raw.arm_1).moveForward(-0.245 * scale_factor);
 
             // Higher part of the arm
-//            objects.get(R.raw.arm_2).setScale(scale_factor);
+            objects.get(R.raw.arm_2).setScale(scale_factor);
             objects.get(R.raw.arm_2).setMaterial(mBlue);
             objects.get(R.raw.arm_2).moveUp(1.4 * scale_factor);
             objects.get(R.raw.arm_2).moveRight(-0.50 * scale_factor);
             objects.get(R.raw.arm_2).moveForward(0.12 * scale_factor);
 
             // Movable part of the wrist on X
-//            objects.get(R.raw.wrist_1).setScale(scale_factor);
+            objects.get(R.raw.wrist_1).setScale(scale_factor);
             objects.get(R.raw.wrist_1).setMaterial(mBlue);
             objects.get(R.raw.wrist_1).moveRight(1.344 * scale_factor);
             objects.get(R.raw.wrist_1).moveForward(-0.021 * scale_factor);
 
             // Movable part of the wrist on Z
-//            objects.get(R.raw.wrist_2).setScale(scale_factor);
+            objects.get(R.raw.wrist_2).setScale(scale_factor);
             objects.get(R.raw.wrist_2).setMaterial(mSilver);
-            objects.get(R.raw.wrist_2).moveForward(0.125);
-            objects.get(R.raw.wrist_2).moveRight(0.415);
-
+            objects.get(R.raw.wrist_2).moveForward(0.125 * scale_factor);
+            objects.get(R.raw.wrist_2).moveRight(0.415 * scale_factor);
 
             // Set skybox
             getCurrentScene().setSkybox(R.drawable.posx, R.drawable.negx, R.drawable.posy,
                                         R.drawable.negy, R.drawable.posz, R.drawable.negz);
 
-            // Set initial x, y, z centers
-//            obj.moveRight(10.0);
-            //getCurrentScene().addChild(obj);
-            //getCurrentCamera().setZ(3.2f);
-            //getCurrentCamera().setY(10.5f);
-            //obj.rotate(Vector3.Axis.Y, 30.0);
         } catch (ParsingException e) {
-            e.printStackTrace();
+            Log.d(TAG + ".initScene", "Couldn't parse file\n" + e.toString());
         } catch (ATexture.TextureException e ) {
             Log.d(TAG + ".initScene", e.toString());
+        } catch (NullPointerException e) {
+            Log.d(TAG + ".initScene","An object file haven't been initialized correctly");
         }
 
         // Set camera position
@@ -162,8 +164,9 @@ public class RenderObj extends RajawaliRenderer {
 //        getCurrentCamera().setPosition(5, 5, 0);
 //        getCurrentCamera().setLookAt(objects.get(R.raw.arm_2).getPosition());
         // Front view
-        getCurrentCamera().setPosition(0, 4, 8); // Update on drag
-        getCurrentCamera().setLookAt(cameraX,cameraY,cameraZ);
+        getCurrentCamera().setPosition(cameraPosition); // Update on drag
+        getCurrentCamera().setLookAt(0,2,0);
+//        getCurrentCamera().setLookAt(objects.get(R.raw.arm_2).getPosition());
     }
 
     @Override
@@ -192,23 +195,15 @@ public class RenderObj extends RajawaliRenderer {
      */
     public void setCameraLookAt(float x, float y, float z) {
         // TODO: Movement is not as straight forward, get direction of the finger
-        cameraX += (x - canvasX < 0 ? 1 : -1) * moveSpeed;
-        cameraY += (y - canvasY > 0 ? 1 : -1) * moveSpeed;
-        // cameraZ = += (z - canvasZ > 0 ? 1 : -1) * moveSpeed;
-        // Set new canvas positions
-        canvasX = x; canvasY = y;
-
-        // Move lookAt in camera
-        getCurrentCamera().setLookAt(cameraX, cameraY, cameraZ);
+        // Update camera position
+//        getCurrentCamera().setPosition();
     }
     @Override
     public void onRender(final long elapsedTime, final double deltaTime) {
-        if (mostrarOBJ == true) {
-            super.onRender(elapsedTime, deltaTime);
-//            objects.get(R.raw.base_2).rotate(Vector3.Axis.Y, 1.0);
-//            objects.get(R.raw.arm_2).rotate(Vector3.Axis.Z, 1.0);
-//            getCurrentCamera().rotate(Vector3.Axis.Y, 1.0);
-        }
+        super.onRender(elapsedTime, deltaTime);
+//        objects.get(R.raw.base_2).rotate(Vector3.Axis.Y, 1.0);
+//        objects.get(R.raw.arm_2).rotate(Vector3.Axis.Z, 1.0);
+//        getCurrentCamera().rotate(Vector3.Axis.Y, 1.0);
     }
 
     // TODO: Looks like when calling an object lower in the hierarchy this doesn't multiply its
@@ -223,27 +218,49 @@ public class RenderObj extends RajawaliRenderer {
         objects.get(R.raw.base_2).rotate(Vector3.Axis.Y, isPositive ? ANGLE_STEP : -ANGLE_STEP);
     }
 
+    /**
+     * Rotate the low part of the arm
+     * @param isPositive whether the rotation is positive or negative
+     */
     public void rotateArmLow(boolean isPositive) {
-        objects.get(R.raw.arm_1).rotate(Vector3.Axis.Z, isPositive ? ANGLE_STEP : -ANGLE_STEP);
+        if(objects.get(R.raw.arm_1).getRotZ() < 1.25  && objects.get(R.raw.arm_1).getRotZ() > -0.25)
+            objects.get(R.raw.arm_1).rotate(Vector3.Axis.Z, isPositive ? ANGLE_STEP : -ANGLE_STEP);
     }
 
+    /**
+     *
+     * Rotate the high part of the arm
+     * @param isPositive whether the rotation is positive or negative
+     */
     public void rotateArmHigh(boolean isPositive) {
-        objects.get(R.raw.arm_2).rotate(Vector3.Axis.Z, isPositive ? ANGLE_STEP : -ANGLE_STEP);
+        if(objects.get(R.raw.arm_2).getRotZ() < 0.6 )
+            objects.get(R.raw.arm_2).rotate(Vector3.Axis.Z, isPositive ? ANGLE_STEP : -ANGLE_STEP);
     }
 
+    /**
+     * Rotate wrist around the X-axis
+     * @param isPositive whether the rotation is positive or negative
+     */
     public void rotateArmWristAround(boolean isPositive) {
         objects.get(R.raw.wrist_1).rotate(Vector3.Axis.X, isPositive ? ANGLE_STEP : -ANGLE_STEP);
     }
 
+    /**
+     * Rotate wrist around the Z-axis
+     * @param isPositive whether the rotation is positive or negative
+     */
     public void rotateArmWrist(boolean isPositive) {
-        objects.get(R.raw.wrist_2).rotate(Vector3.Axis.Z, isPositive ? ANGLE_STEP : -ANGLE_STEP);
+        System.out.println(objects.get(R.raw.wrist_2).getRotZ() );
+        if(objects.get(R.raw.wrist_2).getRotZ() >-1.2 && objects.get(R.raw.wrist_2).getRotZ() <1.2)
+            objects.get(R.raw.wrist_2).rotate(Vector3.Axis.Z, isPositive ? ANGLE_STEP :-ANGLE_STEP);
     }
 
     /**
      * Opens the hand of the robot
-     * @param isPositive if negative is provided the hand will close
+     * @param isPositive whether the hand will be opened or closed
      */
     public void openHand(boolean isPositive) {
         // TODO: Several movements; move 4 pieces
+
     }
 }
