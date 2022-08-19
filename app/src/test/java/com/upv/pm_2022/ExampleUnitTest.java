@@ -1,4 +1,4 @@
-package com.example.mariela.brazo_robotico;
+package com.upv.pm_2022;
 
 import org.junit.Test;
 

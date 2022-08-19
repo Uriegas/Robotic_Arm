@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 33
     defaultConfig {
-        applicationId "com.example.mariela.brazo_robotico"
+        applicationId "com.upv.pm_2022"
         minSdkVersion 15
         targetSdkVersion 30
         versionCode 1
