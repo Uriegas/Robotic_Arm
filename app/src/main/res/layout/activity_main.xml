@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,154 +9,102 @@
         android:layout_width="match_parent"
         android:layout_weight="8"
         android:layout_height="0dp">
-        <org.rajawali3d.surface.RajawaliSurfaceView
+        <org.rajawali3d.view.SurfaceView
             android:id="@+id/gl_surface_view"
             android:layout_width="match_parent"
+            app:renderMode="RENDER_WHEN_DIRTY"
+            app:frameRate="60.0"
             android:layout_height="match_parent" />
-        <LinearLayout android:id="@+id/hidecontainer"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:gravity="center"
-            android:background="#9900FF00"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp">
-            <Button android:id="@+id/hideme1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                android:text="ALGO"/>
-            <Button android:id="@+id/hideme2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                android:text="Algo0"/>
-        </LinearLayout>
     </FrameLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_weight="1.2"
+        android:layout_weight="1.0"
         android:layout_height="0dp"
         android:layout_gravity="center">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
 
         <Button android:id="@+id/B1"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="YI"/>
+            android:text="BL"/>
+
+        <Button android:id="@+id/B3"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="A1D"/>
+
+        <Button android:id="@+id/B5"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="A2D"/>
+
+        <Button android:id="@+id/B7"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="WL"/>
+
+        <Button android:id="@+id/B9"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="WD"/>
+
+        <Button android:id="@+id/B11"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="HO"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_weight="0.70"
+        android:layout_marginTop="-15dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center">
 
         <Button android:id="@+id/B2"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="YD"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-        <Button android:id="@+id/B3"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="A1I"/>
+            android:text="BR"/>
 
         <Button android:id="@+id/B4"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="A1D"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-        <Button android:id="@+id/B5"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="A2I"/>
+            android:text="A1U"/>
 
         <Button android:id="@+id/B6"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="A2D"/>
-        </LinearLayout>
+            android:text="A2U"/>
 
-
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical"-->
-<!--            >-->
-
-<!--            <Button android:id="@+id/B7"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="YI"/>-->
-
-<!--            <Button android:id="@+id/B8"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="YD"/>-->
-<!--        </LinearLayout>-->
-
-        <LinearLayout
+        <Button android:id="@+id/B8"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-            <Button android:id="@+id/B9"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="WUP"/>
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="WR"/>
 
-            <Button android:id="@+id/B10"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="WDN"/>
-        </LinearLayout>
-
-        <LinearLayout
+        <Button android:id="@+id/B10"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-            <Button android:id="@+id/B11"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="HO"/>
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="WU"/>
 
-            <Button android:id="@+id/B12"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="HC"/>
-        </LinearLayout>
+        <Button android:id="@+id/B12"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="HC"/>
     </LinearLayout>
-
 
 </LinearLayout>

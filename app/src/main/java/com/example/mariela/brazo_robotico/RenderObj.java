@@ -3,6 +3,9 @@ package com.example.mariela.brazo_robotico;
 import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
+
+import androidx.annotation.NonNull;
+
 import org.rajawali3d.Object3D;
 import org.rajawali3d.lights.DirectionalLight;
 import org.rajawali3d.loader.LoaderOBJ;
@@ -12,18 +15,36 @@ import org.rajawali3d.materials.methods.DiffuseMethod;
 import org.rajawali3d.materials.methods.SpecularMethod;
 import org.rajawali3d.materials.textures.ATexture;
 import org.rajawali3d.materials.textures.Texture;
-import org.rajawali3d.math.Matrix4;
 import org.rajawali3d.math.vector.Vector3;
-import org.rajawali3d.renderer.RajawaliRenderer;
-
+import org.rajawali3d.renderer.Renderer;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO:
- *      Remove hardcoded angle boundaries in rotate*() methods
+ * Render for the robotic arm
+ * <p>
+ * NOTES: <br>
+ * About the flickering issue when moving an object: <br>
+ *  Looks like when calling an object lower in the hierarchy this doesn't multiply its movement
+ *  matrix by the movement matrix of the higher order objects in the hierarchy therefore producing
+ *  the effect of the moving piece being drawn in the initial position. <br>
+ *  Temporary fix: rotate base by 0, therefore rendering the whole object again
+ * <p>
+ * About the possibility of a cleaner object import: <br>
+ *  In the version 1.2.1970 of Rajawali it is possible to parse an object file (.obj) that contains
+ *  various objects and move them independently, that is with their own centroids.
+ *  @see <a href=https://github.com/Rajawali/Rajawali/issues/2262>
+ *  Need LoaderOBJ to offset child objects to the centroid of their point cloud </a>
+ * <p>
+ *
+ * TODO list:
+ * <ul>
+ *     <li>Remove hardcoded angle boundaries in rotate*() methods</li>
+ *     <li>onDrag() move cameraPosition looking at the figure</li>
+ *     <li>Move LoaderOBJ outside for loop; seems to be not possible</li>
+ * </ul>
  */
-public class RenderObj extends RajawaliRenderer {
+public class RenderObj extends Renderer {
     private final String TAG = "Renderer";
     private final float scale_factor = 1.0f;
     public Context context;
@@ -63,8 +84,8 @@ public class RenderObj extends RajawaliRenderer {
         // Material for blue parts (texture and more)
         Material mBlue = new Material();
         mBlue.enableLighting(true);
-        mBlue.setDiffuseMethod(new DiffuseMethod.Lambert()); // Use the lambert method for lighting
-        mBlue.setColorInfluence(0); // TODO experiment this
+        mBlue.setDiffuseMethod(new DiffuseMethod.Lambert());
+        mBlue.setColorInfluence(0);
         Texture blueTexture = new Texture("Blue", R.drawable.blue_texture);
 
         // Material for silver parts (texture and more)
@@ -76,12 +97,11 @@ public class RenderObj extends RajawaliRenderer {
         Texture silverTexture = new Texture("Silver", R.drawable.silver_texture);
 
         try {
-            // Try adding the textures to the materials
+            // Add the textures to the materials
             mBlue.addTexture(blueTexture);
             mSilver.addTexture(silverTexture);
 
             // Load every object file
-            // TODO: Move LoaderOBJ outside for loop
             for(Map.Entry<Integer, Object3D> object : objects.entrySet()) {
                 LoaderOBJ loader = new LoaderOBJ(getContext().getResources(), getTextureManager(),
                                                  object.getKey());
@@ -91,7 +111,6 @@ public class RenderObj extends RajawaliRenderer {
             }
 
             // Add children relationships (object hierarchy)
-            getCurrentScene().addChild(objects.get(R.raw.base_1));
             objects.get(R.raw.base_1).addChild(objects.get(R.raw.base_2));
             objects.get(R.raw.base_2).addChild(objects.get(R.raw.arm_1));
             objects.get(R.raw.arm_1).addChild(objects.get(R.raw.arm_2));
@@ -116,28 +135,28 @@ public class RenderObj extends RajawaliRenderer {
             // Lower part of the arm
             objects.get(R.raw.arm_1).setScale(scale_factor);
             objects.get(R.raw.arm_1).setMaterial(mBlue);
-            objects.get(R.raw.arm_1).moveUp(1.25 * scale_factor);
-            objects.get(R.raw.arm_1).moveRight(0.170 * scale_factor);
-            objects.get(R.raw.arm_1).moveForward(-0.245 * scale_factor);
+            objects.get(R.raw.arm_1).moveUp(1.25);
+            objects.get(R.raw.arm_1).moveRight(0.170);
+            objects.get(R.raw.arm_1).moveForward(-0.245);
 
             // Higher part of the arm
             objects.get(R.raw.arm_2).setScale(scale_factor);
             objects.get(R.raw.arm_2).setMaterial(mBlue);
-            objects.get(R.raw.arm_2).moveUp(1.4 * scale_factor);
-            objects.get(R.raw.arm_2).moveRight(-0.50 * scale_factor);
-            objects.get(R.raw.arm_2).moveForward(0.12 * scale_factor);
+            objects.get(R.raw.arm_2).moveUp(1.4);
+            objects.get(R.raw.arm_2).moveRight(-0.50);
+            objects.get(R.raw.arm_2).moveForward(0.12);
 
             // Movable part of the wrist on X
             objects.get(R.raw.wrist_1).setScale(scale_factor);
             objects.get(R.raw.wrist_1).setMaterial(mBlue);
-            objects.get(R.raw.wrist_1).moveRight(1.344 * scale_factor);
-            objects.get(R.raw.wrist_1).moveForward(-0.021 * scale_factor);
+            objects.get(R.raw.wrist_1).moveRight(1.344);
+            objects.get(R.raw.wrist_1).moveForward(-0.021);
 
             // Movable part of the wrist on Z
             objects.get(R.raw.wrist_2).setScale(scale_factor);
             objects.get(R.raw.wrist_2).setMaterial(mSilver);
-            objects.get(R.raw.wrist_2).moveForward(0.125 * scale_factor);
-            objects.get(R.raw.wrist_2).moveRight(0.415 * scale_factor);
+            objects.get(R.raw.wrist_2).moveForward(0.125);
+            objects.get(R.raw.wrist_2).moveRight(0.415);
 
             // Parts of Finger 1
             objects.get(R.raw.gear_1).setScale(scale_factor);
@@ -200,41 +219,32 @@ public class RenderObj extends RajawaliRenderer {
                                  int xPixelOffset, int yPixelOffset) { }
 
     /**
-     * The implementation of onTouch is in {@link ArmSurfaceView}
+     * This method is not getting called
      */
     @Override
-    public void onTouchEvent(MotionEvent event) { }
+    public void onTouchEvent(MotionEvent event) {
+        System.out.println("onTouchEvent() called");
+    }
 
     /**
-     * This is a work-around to the fact that mapping the Android plane to the Rajawali plane is
-     * hard since we can't get the direction of any move operation, thus we have to implement memory
-     * of the previous position
+     * Given a vector calculate the new position of the camera.
      * <p>
-     * We don't modify the <bold>z</bold> coordinate since we don't want to modify the zoom of the
-     * camera yet but this could be implemented later.
+     * This method gets called onTouch drag
      * <p>
-     * HINT: {@link ArmSurfaceView#onTouchEvent(MotionEvent)} should handle this with gestures
+     * HINT: Vector3 implements various math operations over vectors
      * @param x x coordinate
      * @param y y coordinate
      * @param z z coordinate
-     * TODO: Instead if changing look at, change camera position to rotate over the arm
      */
-    public void setCameraLookAt(float x, float y, float z) {
-        // Update camera position
-//        getCurrentCamera().setPosition();
+    public void setCameraLookAt(@NonNull Vector3 vec) {
+        cameraPosition.x = vec.x; cameraPosition.y = vec.y; cameraPosition.z = vec.z;
+        getCurrentCamera().setPosition(cameraPosition);
     }
+
     @Override
     public void onRender(final long elapsedTime, final double deltaTime) {
         super.onRender(elapsedTime, deltaTime);
-//        objects.get(R.raw.base_2).rotate(Vector3.Axis.Y, 1.0);
-//        objects.get(R.raw.arm_2).rotate(Vector3.Axis.Z, 1.0);
-//        getCurrentCamera().rotate(Vector3.Axis.Y, 1.0);
     }
-
-    // TODO: Looks like when calling an object lower in the hierarchy this doesn't multiply its
-    //       movement matrix by the movement matrix of the higher order objects in the hierarchy
-    //       therefore producing the effect of the moving piece being drawn in the start position
-    // Quick fix: rotate base by 0
 
     /**
      * Rotation of the base of the arm
@@ -249,18 +259,20 @@ public class RenderObj extends RajawaliRenderer {
      * @param isPositive whether the rotation is positive or negative
      */
     public void rotateArmLow(boolean isPositive) {
-        if(objects.get(R.raw.arm_1).getRotZ() < 1.25  && objects.get(R.raw.arm_1).getRotZ() > -0.25)
+        System.out.println(objects.get(R.raw.arm_1).getRotZ());
+        if((isPositive && objects.get(R.raw.arm_1).getRotZ() < 51) ||
+                (!isPositive && objects.get(R.raw.arm_1).getRotZ() > -10.2) )
             objects.get(R.raw.arm_1).rotate(Vector3.Axis.Z, isPositive ? ANGLE_STEP : -ANGLE_STEP);
         objects.get(R.raw.base_1).rotate(Vector3.Axis.Z, 0.0);
     }
 
     /**
-     *
      * Rotate the high part of the arm
      * @param isPositive whether the rotation is positive or negative
      */
     public void rotateArmHigh(boolean isPositive) {
-        if(objects.get(R.raw.arm_2).getRotZ() < 0.6 )
+        if( (isPositive && objects.get(R.raw.arm_2).getRotZ() < 21.21) ||
+                !isPositive && objects.get(R.raw.arm_2).getRotZ() > -40.8)
             objects.get(R.raw.arm_2).rotate(Vector3.Axis.Z, isPositive ? ANGLE_STEP : -ANGLE_STEP);
         objects.get(R.raw.base_1).rotate(Vector3.Axis.Z, 0.0);
     }
@@ -279,8 +291,8 @@ public class RenderObj extends RajawaliRenderer {
      * @param isPositive whether the rotation is positive or negative
      */
     public void rotateArmWrist(boolean isPositive) {
-        System.out.println(objects.get(R.raw.wrist_2).getRotZ() );
-        if(objects.get(R.raw.wrist_2).getRotZ() >-1.2 && objects.get(R.raw.wrist_2).getRotZ() <1.2)
+        if((isPositive && objects.get(R.raw.wrist_2).getRotZ() < 48.96) ||
+                (!isPositive && objects.get(R.raw.wrist_2).getRotZ() > -48.96))
             objects.get(R.raw.wrist_2).rotate(Vector3.Axis.Z, isPositive ? ANGLE_STEP :-ANGLE_STEP);
         objects.get(R.raw.base_1).rotate(Vector3.Axis.Z, 0.0);
     }
@@ -290,11 +302,9 @@ public class RenderObj extends RajawaliRenderer {
      * @param isPositive whether the hand will be opened or closed
      */
     public void openHand(boolean isPositive) {
-        System.out.println(objects.get(R.raw.gear_1).getRotY());
-        System.out.println(objects.get(R.raw.gear_2).getRotY());
-
-        // No need to check all objects only one gear
-        if(objects.get(R.raw.gear_1).getRotY()<0.90 && objects.get(R.raw.gear_1).getRotY()>-0.25){
+        // No need to check all objects in the hand, only one gear
+        if( (isPositive && objects.get(R.raw.gear_1).getRotY() < 36.72) ||
+                (!isPositive && objects.get(R.raw.gear_1).getRotY()>-10.2) ) {
             // Move gears
             objects.get(R.raw.gear_1).rotate(Vector3.Axis.Y, isPositive ? ANGLE_STEP : -ANGLE_STEP);
             objects.get(R.raw.gear_2).rotate(Vector3.Axis.Y, isPositive ? -ANGLE_STEP : ANGLE_STEP);
